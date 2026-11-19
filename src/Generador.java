@@ -1,13 +1,10 @@
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Generador {
 
-    public static List<Integer> generate(int size) {
-        List<Integer> list = new ArrayList<>();
+    public static int[] generate(int size) {
+        int[] list = new int[size];
         for (int i = 0; i < size; i++) {
-            list.add((int) (Math.random() * size));
+            list[i] = (int) (Math.random() * size);
         }
         return list;
     }
