@@ -1,17 +1,21 @@
-
 public class Benchmark {
 
-    public static Results medir(Runnable accion, String nombre, String sample) {
-        //tiempo actual
-        long tiempoActual = System.nanoTime();
-        //accion
-        accion.run();
-        //tiempo final
-        long tiempoFinal = System.nanoTime();
-        //retornar el tiempo duracion
+    // Recibe la operación como Runnable (lambda sin parámetros ni retorno)
+    public static Results medir(Runnable accion, String nombre, int sample) {
+        Throwable error = null;
 
-        Results results = new Results(nombre, (tiempoFinal - tiempoActual), sample);
+        long inicio = System.nanoTime();
+        try {
+            accion.run();
+        } catch (Throwable t) {
+            error = t;
+        }
+        long fin = System.nanoTime();
 
-        return results;
+        // Si falló, NO se devuelve ningún tiempo: se lanza el error con su causa original
+        if (error != null) {
+            throw new RuntimeException("Falló " + nombre + " con sample " + sample, error);
+        }
+        return new Results(nombre, fin - inicio, sample);
     }
 }

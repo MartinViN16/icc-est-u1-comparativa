@@ -1,32 +1,70 @@
-import java.util.List;
+import java.util.Arrays;
 
 public class Algoritmos {
-    public void sortBubble(List<Integer> list) {
-        for (int i = 0; i < list.size() - 1; i++) {
+
+    public int[] sortBubble(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
             boolean swap = false;
-            for (int j = 0; j < list.size() - i - 1; j++) {
-                if (list.get(j) > list.get(j + 1)) {
-                    int aux = list.get(j);
-                    list.set(j, list.get(j + 1));
-                    list.set(j + 1, aux);
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int aux = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = aux;
                     swap = true;
                 }
             }
             if (!swap) {
-                return;
+                return arr;
+            }
+        }
+        return arr;
+    }
+
+    public int[] sortMerge(int[] arr) {
+        if (arr.length < 2) {
+            return arr;
+        }
+        int[] aux = new int[arr.length];   // cuenta dentro del cronómetro
+        mergeSort(arr, aux, 0, arr.length - 1);
+        return arr;
+    }
+
+    private void mergeSort(int[] arr, int[] aux, int inicio, int fin) {
+        if (inicio >= fin) {
+            return;
+        }
+        int medio = inicio + (fin - inicio) / 2;
+        mergeSort(arr, aux, inicio, medio);
+        mergeSort(arr, aux, medio + 1, fin);
+        merge(arr, aux, inicio, medio, fin);
+    }
+
+    private void merge(int[] arr, int[] aux, int inicio, int medio, int fin) {
+        for (int k = inicio; k <= fin; k++) {
+            aux[k] = arr[k];
+        }
+        int i = inicio;
+        int j = medio + 1;
+        for (int k = inicio; k <= fin; k++) {
+            if (i > medio) {
+                arr[k] = aux[j++];
+            } else if (j > fin) {
+                arr[k] = aux[i++];
+            } else if (aux[i] <= aux[j]) {
+                arr[k] = aux[i++];
+            } else {
+                arr[k] = aux[j++];
             }
         }
     }
 
-    public void sortMerge(List<Integer> list) {
-        if (list.size() < 2) {
-            return;
-        }
-        int mid = list.size() / 2;
-        List<Integer> left = list.subList(0, mid);
-        List<Integer> right = list.subList(mid, list.size());
-        sortMerge(left);
-        sortMerge(right);
-        merge(list, left, right);
+    public int[] sortArrays(int[] arr) {
+        Arrays.sort(arr);
+        return arr;
+    }
+
+    public Integer[] sortArraysComparator(Integer[] arr) {
+        Arrays.sort(arr, (a, b) -> Integer.compare(a, b));
+        return arr;
     }
 }

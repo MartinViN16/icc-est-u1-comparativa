@@ -1,11 +1,10 @@
-
 public class Results {
 
     private String functionName;
-    private long duration;
-    private String sample;
+    private long duration;   // nanosegundos
+    private int sample;
 
-    public Results(String functionName, long duration, String sample) {
+    public Results(String functionName, long duration, int sample) {
         this.functionName = functionName;
         this.duration = duration;
         this.sample = sample;
@@ -15,29 +14,21 @@ public class Results {
         return functionName;
     }
 
-    public void setFunctionName(String functionName) {
-        this.functionName = functionName;
-    }
-
     public long getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public String getSample() {
+    public int getSample() {
         return sample;
     }
 
-    public void setSample(String sample) {
-        this.sample = sample;
+    // Convierte nanosegundos a milisegundos
+    public double getMs() {
+        return duration / 1_000_000.0;
     }
 
     @Override
     public String toString() {
-        double segundos = duration / 1_000_000_000.0;
-        return "Results [functionName=" + functionName + ", duration=" + duration + ", ns" + segundos + ", sample=" + sample + "]";
+        return functionName + " | sample = " + sample + " | " + getMs() + " ms";
     }
 }
