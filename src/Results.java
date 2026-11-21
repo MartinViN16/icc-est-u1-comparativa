@@ -1,7 +1,9 @@
+import java.util.Locale;
+
 public class Results {
 
     private String functionName;
-    private long duration;   // nanosegundos
+    private long duration;
     private int sample;
 
     public Results(String functionName, long duration, int sample) {
@@ -22,13 +24,18 @@ public class Results {
         return sample;
     }
 
-    // Convierte nanosegundos a milisegundos
     public double getMs() {
         return duration / 1_000_000.0;
     }
 
+    public double getSegundos() {
+        return duration / 1_000_000_000.0;
+    }
+
     @Override
     public String toString() {
-        return functionName + " | sample = " + sample + " | " + getMs() + " ms";
+        String sampleTexto = String.format(Locale.GERMAN, "%,d", sample);
+        return "Results [" + functionName + ", duration=" + duration + "ns, "
+                + getSegundos() + "s, sample=" + sampleTexto + "]";
     }
 }
